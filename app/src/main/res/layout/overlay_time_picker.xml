@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/overlay_scrim"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_overlay_modal"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/textOverlayTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/overlay_title"
+            android:textColor="@color/color_on_surface"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textOverlaySubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/overlay_subtitle"
+            android:textColor="@color/color_on_surface_muted" />
+
+        <TextView
+            android:id="@+id/textOverlayPackage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_on_surface_muted"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupDurations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
+            <RadioButton
+                android:id="@+id/radio1min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/overlay_duration_1" />
+
+            <RadioButton
+                android:id="@+id/radio2min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/overlay_duration_2" />
+
+            <RadioButton
+                android:id="@+id/radio5min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/overlay_duration_5" />
+
+            <RadioButton
+                android:id="@+id/radio15min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/overlay_duration_15" />
+
+            <RadioButton
+                android:id="@+id/radioNoLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/overlay_duration_no_limit" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textNoLimitInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/overlay_no_limit_info"
+            android:textColor="@color/color_on_surface_muted" />
+
+        <Button
+            android:id="@+id/buttonConfirmTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_primary_button"
+            android:text="@string/overlay_confirm"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</FrameLayout>
