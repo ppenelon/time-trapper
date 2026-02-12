@@ -2,35 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_card_surface"
     android:orientation="vertical"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutAppTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextAppTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/dialog_app_title_hint"
-            android:inputType="textPersonName"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutAppPackage"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:text="@string/dialog_app_title_hint"
+        android:textColor="@color/color_on_surface_muted"
+        android:textSize="12sp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextAppPackage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/dialog_app_package_hint"
-            android:inputType="textNoSuggestions"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <EditText
+        android:id="@+id/editTextAppTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/color_primary"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/color_on_surface"
+        android:textColorHint="@color/color_on_surface_muted" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/dialog_app_package_hint"
+        android:textColor="@color/color_on_surface_muted"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/editTextAppPackage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/color_primary"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/color_on_surface"
+        android:textColorHint="@color/color_on_surface_muted" />
 </LinearLayout>

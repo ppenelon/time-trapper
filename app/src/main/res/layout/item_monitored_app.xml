@@ -3,46 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="6dp"
     app:cardBackgroundColor="@color/color_card_surface"
-    app:cardCornerRadius="14dp"
+    app:cardCornerRadius="12dp"
     app:strokeColor="@color/color_card_border"
     app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
-
-        <TextView
-            android:id="@+id/textAppTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_on_surface"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textAppPackage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/color_on_surface_muted"
-            android:textSize="13sp" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="end"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textAppTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_on_surface"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textAppPackage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:textColor="@color/color_on_surface_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditApp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="34dp"
+                android:textAllCaps="false"
                 android:text="@string/button_edit" />
 
             <com.google.android.material.button.MaterialButton
@@ -50,7 +60,11 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="2dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="34dp"
+                android:textAllCaps="false"
                 android:text="@string/button_remove" />
         </LinearLayout>
     </LinearLayout>

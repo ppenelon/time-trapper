@@ -1,9 +1,9 @@
 package com.ppenelon.timetrapper.accessibility
 
 import android.accessibilityservice.AccessibilityService
+import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import android.content.Intent
 import com.ppenelon.timetrapper.overlay.OverlayManager
 import com.ppenelon.timetrapper.storage.AppPreferences
 import com.ppenelon.timetrapper.timer.AppTimerManager
@@ -139,14 +139,41 @@ class AppAccessibilityService : AccessibilityService() {
         lastBlockedAtMillis = now
         overlayManager.hide()
 
-        performGlobalAction(GLOBAL_ACTION_HOME)
+        val monitoredTitle = appPreferences.findMonitoredApp(packageName)?.title ?: packageName
+        val appLabel = "$monitoredTitle ($packageName)"
 
+        val shownAsOverlay = overlayManager.showBlockedOverlay(
+            packageName = packageName,
+            appDisplayName = appLabel,
+            onExtendFiveMinutes = {
+                AppTimerManager.extendSession(packageName, 5)
+                logDebug("Session extended from blocked overlay for $packageName.")
+            },
+            onGoHome = {
+                performGlobalAction(GLOBAL_ACTION_HOME)
+            }
+        )
+
+        if (shownAsOverlay) {
+            logDebug("Blocked overlay displayed for $packageName.")
+            return
+        }
+
+        performGlobalAction(GLOBAL_ACTION_HOME)
+        launchBlockedActivityFallback(packageName)
+    }
+
+    private fun launchBlockedActivityFallback(packageName: String) {
         val blockedIntent = Intent(this, BlockedActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP
+            )
             putExtra(BlockedActivity.EXTRA_PACKAGE_NAME, packageName)
         }
         startActivity(blockedIntent)
-        logDebug("Blocked activity displayed for $packageName.")
+        logDebug("Blocked activity fallback displayed for $packageName.")
     }
 
     private fun logDebug(message: String) {

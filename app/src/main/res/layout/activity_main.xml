@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/textMainIntro"
@@ -24,7 +24,7 @@
             android:id="@+id/textWellbeingNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:text="@string/main_wellbeing_note"
             android:textColor="@color/color_on_surface_muted" />
 
@@ -32,10 +32,10 @@
             android:id="@+id/cardPermissions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_permissions_priority"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/textPermissionPriorityTitle"
@@ -50,7 +50,7 @@
                 android:id="@+id/textPermissionPriorityHint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/permissions_priority_hint"
                 android:textColor="@color/color_on_surface_muted" />
 
@@ -58,7 +58,7 @@
                 android:id="@+id/textAccessibilityStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/color_on_surface"
                 android:textStyle="bold" />
 
@@ -67,14 +67,14 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:text="@string/button_open_accessibility_settings" />
 
             <TextView
                 android:id="@+id/textOverlayStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/color_on_surface"
                 android:textStyle="bold" />
 
@@ -83,14 +83,14 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:text="@string/button_open_overlay_settings" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             app:cardBackgroundColor="@color/color_card_surface"
             app:cardCornerRadius="18dp"
             app:strokeColor="@color/color_card_border"
@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="2dp"
                     android:text="@string/monitored_apps_subtitle"
                     android:textColor="@color/color_on_surface_muted" />
 
@@ -137,7 +137,7 @@
                     android:id="@+id/monitoredAppContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="vertical" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -145,8 +145,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
             app:cardBackgroundColor="@color/color_card_surface"
             app:cardCornerRadius="18dp"
             app:strokeColor="@color/color_card_border"
@@ -156,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="12dp">
 
                 <TextView
                     android:id="@+id/textActiveSessionsTitle"
@@ -171,7 +171,7 @@
                     android:id="@+id/textActiveSessions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/no_active_sessions"
                     android:textColor="@color/color_on_surface_muted" />
 
@@ -179,7 +179,8 @@
                     android:id="@+id/switchDebugLogs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/color_on_surface"
                     android:text="@string/debug_logs_label" />
 
                 <com.google.android.material.button.MaterialButton
@@ -187,7 +188,7 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/button_clear_sessions" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

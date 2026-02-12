@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -18,8 +19,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.ppenelon.timetrapper.accessibility.AppAccessibilityService
 import com.ppenelon.timetrapper.storage.AppPreferences
 import com.ppenelon.timetrapper.timer.AppTimerManager
@@ -32,6 +31,24 @@ import java.util.Locale
  * - sessions actives et logs debug
  */
 class MainActivity : AppCompatActivity() {
+
+    private data class KnownAppSuggestion(
+        val title: String,
+        val packageName: String
+    )
+
+    private val knownAppSuggestions = listOf(
+        KnownAppSuggestion("Facebook", "com.facebook.katana"),
+        KnownAppSuggestion("Instagram", "com.instagram.android"),
+        KnownAppSuggestion("TikTok", "com.zhiliaoapp.musically"),
+        KnownAppSuggestion("YouTube", "com.google.android.youtube"),
+        KnownAppSuggestion("LinkedIn", "com.linkedin.android"),
+        KnownAppSuggestion("Snapchat", "com.snapchat.android"),
+        KnownAppSuggestion("Pinterest", "com.pinterest"),
+        KnownAppSuggestion("Reddit", "com.reddit.frontpage"),
+        KnownAppSuggestion("X (Twitter)", "com.twitter.android"),
+        KnownAppSuggestion("Threads (Meta)", "com.instagram.threads")
+    )
 
     private lateinit var appPreferences: AppPreferences
     private val uiHandler = Handler(Looper.getMainLooper())
@@ -94,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.buttonAddMonitoredApp).setOnClickListener {
-            showMonitoredAppDialog(existingApp = null)
+            showKnownAppsPickerDialog()
         }
 
         findViewById<Button>(R.id.buttonClearSessions).setOnClickListener {
@@ -246,71 +263,111 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMonitoredAppDialog(existingApp: AppPreferences.MonitoredApp?) {
-        val dialogView = LayoutInflater.from(this)
-            .inflate(R.layout.dialog_edit_monitored_app, null)
+        try {
+            val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_edit_monitored_app, null)
 
-        val inputLayoutTitle = dialogView.findViewById<TextInputLayout>(R.id.inputLayoutAppTitle)
-        val inputLayoutPackage = dialogView.findViewById<TextInputLayout>(R.id.inputLayoutAppPackage)
-        val editTitle = dialogView.findViewById<TextInputEditText>(R.id.editTextAppTitle)
-        val editPackage = dialogView.findViewById<TextInputEditText>(R.id.editTextAppPackage)
+            val editTitle = dialogView.findViewById<EditText>(R.id.editTextAppTitle)
+            val editPackage = dialogView.findViewById<EditText>(R.id.editTextAppPackage)
 
-        editTitle.setText(existingApp?.title.orEmpty())
-        editPackage.setText(existingApp?.packageName.orEmpty())
+            editTitle.setText(existingApp?.title.orEmpty())
+            editPackage.setText(existingApp?.packageName.orEmpty())
 
-        val dialogTitle = if (existingApp == null) {
-            getString(R.string.dialog_add_app_title)
-        } else {
-            getString(R.string.dialog_edit_app_title)
+            val dialogTitle = if (existingApp == null) {
+                getString(R.string.dialog_add_app_title)
+            } else {
+                getString(R.string.dialog_edit_app_title)
+            }
+
+            val dialog = AlertDialog.Builder(this)
+                .setTitle(dialogTitle)
+                .setView(dialogView)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.dialog_save, null)
+                .create()
+
+            dialog.setOnShowListener {
+                val saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                saveButton.setOnClickListener {
+                    editTitle.error = null
+                    editPackage.error = null
+
+                    val title = editTitle.text?.toString()?.trim().orEmpty()
+                    val packageName = editPackage.text?.toString()?.trim()?.lowercase(Locale.US).orEmpty()
+
+                    var isValid = true
+                    if (title.isBlank()) {
+                        editTitle.error = getString(R.string.error_app_title_required)
+                        isValid = false
+                    }
+                    if (!isValidPackageName(packageName)) {
+                        editPackage.error = getString(R.string.error_app_package_invalid)
+                        isValid = false
+                    }
+                    if (!isValid) {
+                        return@setOnClickListener
+                    }
+
+                    appPreferences.upsertMonitoredApp(
+                        title = title,
+                        packageName = packageName,
+                        previousPackageName = existingApp?.packageName
+                    )
+
+                    if (existingApp == null) {
+                        showToast(getString(R.string.toast_package_added))
+                    } else {
+                        showToast(getString(R.string.toast_package_updated))
+                    }
+
+                    renderMonitoredPackages()
+                    renderActiveSessions()
+                    dialog.dismiss()
+                }
+            }
+
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(R.drawable.bg_overlay_modal)
+        } catch (_: Throwable) {
+            showToast(getString(R.string.toast_dialog_open_error))
+        }
+    }
+
+    private fun showKnownAppsPickerDialog() {
+        val monitoredPackages = appPreferences.getMonitoredPackages()
+        val availableSuggestions = knownAppSuggestions
+            .filterNot { monitoredPackages.contains(it.packageName) }
+
+        if (availableSuggestions.isEmpty()) {
+            showMonitoredAppDialog(existingApp = null)
+            return
         }
 
-        val dialog = AlertDialog.Builder(this)
-            .setTitle(dialogTitle)
-            .setView(dialogView)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.dialog_save, null)
-            .create()
+        val options = availableSuggestions
+            .map { suggestion -> "${suggestion.title} (${suggestion.packageName})" }
+            .toMutableList()
+            .apply { add(getString(R.string.dialog_known_apps_custom_option)) }
+            .toTypedArray()
 
-        dialog.setOnShowListener {
-            val saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            saveButton.setOnClickListener {
-                inputLayoutTitle.error = null
-                inputLayoutPackage.error = null
-
-                val title = editTitle.text?.toString()?.trim().orEmpty()
-                val packageName = editPackage.text?.toString()?.trim()?.lowercase(Locale.US).orEmpty()
-
-                var isValid = true
-                if (title.isBlank()) {
-                    inputLayoutTitle.error = getString(R.string.error_app_title_required)
-                    isValid = false
-                }
-                if (!isValidPackageName(packageName)) {
-                    inputLayoutPackage.error = getString(R.string.error_app_package_invalid)
-                    isValid = false
-                }
-                if (!isValid) {
-                    return@setOnClickListener
-                }
-
-                appPreferences.upsertMonitoredApp(
-                    title = title,
-                    packageName = packageName,
-                    previousPackageName = existingApp?.packageName
-                )
-
-                if (existingApp == null) {
-                    showToast(getString(R.string.toast_package_added))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_known_apps_title)
+            .setItems(options) { dialog, index ->
+                if (index == availableSuggestions.size) {
+                    showMonitoredAppDialog(existingApp = null)
                 } else {
-                    showToast(getString(R.string.toast_package_updated))
+                    val selectedSuggestion = availableSuggestions[index]
+                    appPreferences.upsertMonitoredApp(
+                        title = selectedSuggestion.title,
+                        packageName = selectedSuggestion.packageName
+                    )
+                    showToast(getString(R.string.toast_package_added))
+                    renderMonitoredPackages()
+                    renderActiveSessions()
                 }
-
-                renderMonitoredPackages()
-                renderActiveSessions()
                 dialog.dismiss()
             }
-        }
-
-        dialog.show()
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun isAccessibilityServiceEnabled(): Boolean {

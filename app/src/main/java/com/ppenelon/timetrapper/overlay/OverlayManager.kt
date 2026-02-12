@@ -94,6 +94,55 @@ class OverlayManager(private val context: Context) {
         }
     }
 
+    fun showBlockedOverlay(
+        packageName: String,
+        appDisplayName: String,
+        onExtendFiveMinutes: () -> Unit,
+        onGoHome: () -> Unit
+    ): Boolean {
+        if (!canDisplayOverlay()) {
+            return false
+        }
+        hide()
+
+        return try {
+            val blockedView = LayoutInflater.from(context).inflate(R.layout.overlay_blocked, null)
+            val blockedPackageLabel = blockedView.findViewById<TextView>(R.id.textBlockedOverlayPackage)
+            val extendButton = blockedView.findViewById<Button>(R.id.buttonBlockedOverlayExtend5)
+            val homeButton = blockedView.findViewById<Button>(R.id.buttonBlockedOverlayGoHome)
+
+            blockedPackageLabel.text = context.getString(R.string.blocked_package, appDisplayName)
+
+            extendButton.setOnClickListener {
+                hide()
+                onExtendFiveMinutes()
+            }
+
+            homeButton.setOnClickListener {
+                hide()
+                onGoHome()
+            }
+
+            val layoutParams = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                PixelFormat.TRANSLUCENT
+            ).apply {
+                gravity = Gravity.TOP or Gravity.START
+            }
+
+            windowManager.addView(blockedView, layoutParams)
+            overlayView = blockedView
+            showingPackageName = packageName
+            true
+        } catch (error: Throwable) {
+            Log.e(TAG, "Unable to display blocked overlay for $packageName", error)
+            false
+        }
+    }
+
     fun hide() {
         val attachedView = overlayView ?: return
         try {

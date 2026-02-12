@@ -20,6 +20,8 @@
     <string name="no_monitored_apps">Aucune application surveillée.</string>
     <string name="dialog_add_app_title">Ajouter une application surveillée</string>
     <string name="dialog_edit_app_title">Modifier l\'application surveillée</string>
+    <string name="dialog_known_apps_title">Ajouter une application connue</string>
+    <string name="dialog_known_apps_custom_option">Application personnalisée…</string>
     <string name="dialog_save">Enregistrer</string>
     <string name="dialog_app_title_hint">Titre affiché</string>
     <string name="dialog_app_package_hint">Package name (ex: com.instagram.android)</string>
@@ -53,6 +55,7 @@
     <string name="toast_package_removed">Application retirée de la surveillance</string>
     <string name="toast_invalid_package">Nom de package invalide</string>
     <string name="toast_sessions_cleared">Sessions réinitialisées</string>
+    <string name="toast_dialog_open_error">Impossible d\'ouvrir la fenêtre d\'édition</string>
     <string name="toast_overlay_already_enabled">La permission overlay est déjà activée</string>
     <string name="toast_settings_open_error">Impossible d\'ouvrir les paramètres</string>
     <string name="accessibility_service_label">Time Trapper - Contrôle du temps</string>
