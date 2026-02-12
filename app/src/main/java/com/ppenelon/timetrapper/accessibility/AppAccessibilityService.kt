@@ -146,7 +146,7 @@ class AppAccessibilityService : AccessibilityService() {
             packageName = packageName,
             appDisplayName = appLabel,
             onExtendFiveMinutes = {
-                AppTimerManager.extendSession(packageName, 5)
+                AppTimerManager.extendSession(packageName, 2)
                 logDebug("Session extended from blocked overlay for $packageName.")
             },
             onGoHome = {

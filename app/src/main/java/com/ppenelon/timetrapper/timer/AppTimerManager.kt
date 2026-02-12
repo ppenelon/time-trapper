@@ -130,7 +130,8 @@ object AppTimerManager {
     @Synchronized
     fun getSession(packageName: String): AppPreferences.SessionEntry? {
         ensureInitialized()
-        removeExpiredSessionsLocked()
+        // Ne supprime pas ici: le service doit pouvoir détecter une session expirée
+        // et appliquer le blocage immédiatement sur l'app en premier plan.
         return sessions[packageName]
     }
 
@@ -168,7 +169,9 @@ object AppTimerManager {
             persistSessionsLocked()
         }
         if (expired.isNotEmpty()) {
-            // Les expirations sont gérées au tick timer ou lors de la détection d'app foreground.
+            expired.forEach { packageName ->
+                expirationListener?.invoke(packageName)
+            }
         }
         scheduleTickerLocked()
     }

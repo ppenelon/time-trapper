@@ -28,6 +28,7 @@
     <string name="error_app_title_required">Le titre est requis</string>
     <string name="error_app_package_invalid">Nom de package invalide</string>
     <string name="debug_logs_label">Activer les logs debug</string>
+    <string name="debug_logs_hint">Utile pour diagnostiquer les evenements du service en temps reel.</string>
     <string name="button_clear_sessions">Réinitialiser les sessions actives</string>
     <string name="active_sessions_title">Sessions actives</string>
     <string name="no_active_sessions">Aucune session active.</string>
@@ -47,9 +48,9 @@
     <string name="blocked_subtitle">Le temps autorisé est terminé.</string>
     <string name="blocked_package">Application bloquée: %1$s</string>
     <string name="blocked_unknown_package">Application bloquée</string>
-    <string name="button_extend_5">Prolonger de 5 minutes</string>
+    <string name="button_extend_5">Prolonger de 2 minutes</string>
     <string name="button_go_home">Retour à l\'accueil</string>
-    <string name="toast_extension_applied">Session prolongée de 5 minutes</string>
+    <string name="toast_extension_applied">Session prolongée de 2 minutes</string>
     <string name="toast_package_added">Application ajoutée à la surveillance</string>
     <string name="toast_package_updated">Application mise à jour</string>
     <string name="toast_package_removed">Application retirée de la surveillance</string>
